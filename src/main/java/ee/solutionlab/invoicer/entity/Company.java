@@ -2,6 +2,7 @@ package ee.solutionlab.invoicer.entity;
 
 import lombok.*;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "company")
@@ -11,12 +12,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @ToString
-@EqualsAndHashCode(exclude = {"id", "statusInfo"})
+@EqualsAndHashCode(exclude = {"id"})
 public class Company {
 
     @Id
     @Column(nullable = false)
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMPANY_GEN")
+    @SequenceGenerator(name = "COMPANY_GEN", sequenceName = "COMPANY_ID_SEQ", allocationSize = 1)
     private long id;
     @Column(nullable = false)
     private String companyForm;
@@ -36,7 +38,8 @@ public class Company {
     private String country;
     @Column(nullable = false)
     private String bankAccount;
-    @Builder.Default
-    @Embedded
-    private StatusInfo statusInfo = new StatusInfo();
+    @Column(nullable = false)
+    private LocalDateTime created;
+    @Column(nullable = false)
+    private LocalDateTime changed;
 }

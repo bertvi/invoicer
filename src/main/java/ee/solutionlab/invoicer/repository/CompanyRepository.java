@@ -8,9 +8,6 @@ import java.util.Optional;
 
 public interface CompanyRepository extends CrudRepository<Company, Long> {
 
-    @Query("SELECT c FROM Company c WHERE c.businessId = :businessId AND c.companyForm = :companyForm AND c.name = :name")
-    Optional<Company> findAny(@Param("businessId") String businessId, @Param("companyForm") String companyForm, @Param("name") String name);
-
     @Query("SELECT c FROM Company c WHERE c.country = :country")
     Optional<Company> findAnyByCountry(@Param("country") String country);
 

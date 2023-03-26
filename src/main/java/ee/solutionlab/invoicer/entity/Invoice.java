@@ -7,15 +7,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -27,12 +27,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@EqualsAndHashCode(exclude = {"id", "statusInfo"})
+@EqualsAndHashCode(exclude = {"id"})
 public class Invoice {
 
     @Id
     @Column(nullable = false)
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INVOICE_GEN")
+    @SequenceGenerator(name = "INVOICE_GEN", sequenceName = "INVOICE_ID_SEQ", allocationSize = 1)
     private long id;
     @Column(nullable = false)
     private String invoiceNo;
@@ -65,7 +66,11 @@ public class Invoice {
     @ManyToOne
     @JoinColumn(name = "ACTIVITY_ID")
     private Activity activity;
-    @Builder.Default
-    @Embedded
-    private StatusInfo statusInfo = new StatusInfo();
+    @ManyToOne
+    @JoinColumn(name = "PROJECT_ID")
+    private Project project;
+    @Column(nullable = false)
+    private LocalDateTime created;
+    @Column(nullable = false)
+    private LocalDateTime changed;
 }

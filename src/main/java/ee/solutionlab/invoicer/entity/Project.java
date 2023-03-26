@@ -7,35 +7,42 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "activity")
+@Table(name = "project")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-@EqualsAndHashCode(exclude = {"id", "statusInfo"})
+@EqualsAndHashCode(exclude = {"id"})
 public class Project {
 
     @Id
     @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACTIVITY_GEN")
-    @SequenceGenerator(name = "ACTIVITY_GEN", sequenceName = "ACTIVITY_ID_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROJECT_GEN")
+    @SequenceGenerator(name = "PROJECT_GEN", sequenceName = "PROJECT_ID_SEQ", allocationSize = 1)
     private long id;
     @Column(nullable = false)
     private String name;
-    @Builder.Default
-    @Embedded
-    private StatusInfo statusInfo = new StatusInfo();
+    @Column(nullable = false)
+    private String code;
+    @ManyToOne
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Customer customer;
+    @Column(nullable = false)
+    private LocalDateTime created;
+    @Column(nullable = false)
+    private LocalDateTime changed;
 }

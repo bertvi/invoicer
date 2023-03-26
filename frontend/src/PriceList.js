@@ -3,47 +3,47 @@ import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavBar.js';
 import { Link } from 'react-router-dom';
 
-class ActivityList extends Component {
+class PriceList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {activities: []};
+        this.state = {prices: []};
         this.remove = this.remove.bind(this);
     }
 
     componentDidMount() {
-        fetch('/api/activities')
+        fetch('/api/prices')
             .then(response => response.json())
-            .then(data => this.setState({activities: data}));
+            .then(data => this.setState({prices: data}));
     }
 
     async remove(id) {
-        await fetch(`/api/activities/${id}`, {
+        await fetch(`/api/prices/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         }).then(() => {
-            let updatedActivities = [...this.state.activities].filter(i => i.id !== id);
-            this.setState({activities: updatedActivities});
+            let updatedPrices = [...this.state.prices].filter(i => i.id !== id);
+            this.setState({prices: updatedPrices});
         });
     }
 
     render() {
-        const {activities, isLoading} = this.state;
+        const {prices, isLoading} = this.state;
 
         if (isLoading) {
             return <p>Loading...</p>;
         }
 
-        const activitiesList = activities.map(activity => {
-            return <tr key={activity.id}>
-                <td style={{whiteSpace: 'nowrap'}}>{activity.name}</td>
+        const pricesList = prices.map(price => {
+            return <tr key={price.id}>
+                <td style={{whiteSpace: 'nowrap'}}>{price.name}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="primary" tag={Link} to={"/activities/" + activity.id}>Edit</Button>
-                        <Button size="sm" color="danger" onClick={() => this.remove(activity.id)}>Delete</Button>
+                        <Button size="sm" color="primary" tag={Link} to={"/prices/" + price.id}>Edit</Button>
+                        <Button size="sm" color="danger" onClick={() => this.remove(price.id)}>Delete</Button>
                     </ButtonGroup>
                 </td>
             </tr>
@@ -54,9 +54,9 @@ class ActivityList extends Component {
                 <AppNavbar/>
                 <Container fluid>
                     <div className="float-right">
-                        <Button color="success" tag={Link} to="/activities/new">Add Activity</Button>
+                        <Button color="success" tag={Link} to="/prices/new">Add Price</Button>
                     </div>
-                    <h3>Activities</h3>
+                    <h3>Prices</h3>
                     <Table className="mt-4">
                         <thead>
                         <tr>
@@ -64,7 +64,7 @@ class ActivityList extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {activitiesList}
+                        {pricesList}
                         </tbody>
                     </Table>
                 </Container>
@@ -72,4 +72,4 @@ class ActivityList extends Component {
         );
     }
 }
-export default ActivityList;
+export default PriceList;

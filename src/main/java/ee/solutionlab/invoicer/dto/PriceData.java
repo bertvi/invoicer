@@ -15,4 +15,8 @@ import lombok.Setter;
 @Setter
 public class PriceData {
 
+    private long value;
+    private UnitData unit;
+    private ActivityData activity;
+    private CurrencyData currency;
 }

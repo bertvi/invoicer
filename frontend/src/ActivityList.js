@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
-import AppNavbar from './AppNavbar';
+import AppNavbar from './AppNavBar.js';
 import { Link } from 'react-router-dom';
 
-class ActivitiesList extends Component {
+class ActivityList extends Component {
 
     constructor(props) {
         super(props);
@@ -37,12 +37,12 @@ class ActivitiesList extends Component {
             return <p>Loading...</p>;
         }
 
-        const activitiesList = activities.map(client => {
+        const activitiesList = activities.map(activity => {
             return <tr key={activity.id}>
                 <td style={{whiteSpace: 'nowrap'}}>{activity.name}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="primary" tag={Link} to={"/api/activity/" + activity.id}>Edit</Button>
+                        <Button size="sm" color="primary" tag={Link} to={"/activities/" + activity.id}>Edit</Button>
                         <Button size="sm" color="danger" onClick={() => this.remove(activity.id)}>Delete</Button>
                     </ButtonGroup>
                 </td>
@@ -54,9 +54,9 @@ class ActivitiesList extends Component {
                 <AppNavbar/>
                 <Container fluid>
                     <div className="float-right">
-                        <Button color="success" tag={Link} to="/actiities/new">Add Activity</Button>
+                        <Button color="success" tag={Link} to="/activities/new">Add Activity</Button>
                     </div>
-                    <h3>Clients</h3>
+                    <h3>Activities</h3>
                     <Table className="mt-4">
                         <thead>
                         <tr>
@@ -72,4 +72,4 @@ class ActivitiesList extends Component {
         );
     }
 }
-export default ActivitiesList;
+export default ActivityList;

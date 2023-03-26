@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import AppNavbar from './AppNavBar.js';
 
-class ActivityEdit extends Component {
+class UnitEdit extends Component {
 
     emptyItem = {
         name: '',
@@ -20,8 +20,8 @@ class ActivityEdit extends Component {
 
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
-            const activity = await (await fetch(`/api/activities/${this.props.match.params.id}`)).json();
-            this.setState({item: activity});
+            const unit = await (await fetch(`/api/units/${this.props.match.params.id}`)).json();
+            this.setState({item: unit});
         }
     }
 
@@ -38,7 +38,7 @@ class ActivityEdit extends Component {
         event.preventDefault();
         const {item} = this.state;
 
-        await fetch('/activities' + (item.id ? '/' + item.id : ''), {
+        await fetch('/units' + (item.id ? '/' + item.id : ''), {
             method: (item.id) ? 'PUT' : 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -46,12 +46,12 @@ class ActivityEdit extends Component {
             },
             body: JSON.stringify(item),
         });
-        this.props.history.push('/activities');
+        this.props.history.push('/units');
     }
 
     render() {
         const {item} = this.state;
-        const title = <h2>{item.id ? 'Edit Activity' : 'Add Activity'}</h2>;
+        const title = <h2>{item.id ? 'Edit Unit' : 'Add Unit'}</h2>;
 
         return <div>
             <AppNavbar/>
@@ -65,11 +65,11 @@ class ActivityEdit extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/activities">Cancel</Button>
+                        <Button color="secondary" tag={Link} to="/units">Cancel</Button>
                     </FormGroup>
                 </Form>
             </Container>
         </div>
     }
 }
-export default withRouter(ActivityEdit);
+export default withRouter(UnitEdit);

@@ -15,4 +15,5 @@ import lombok.Setter;
 @Setter
 public class CurrencyData {
 
+    private String name;
 }

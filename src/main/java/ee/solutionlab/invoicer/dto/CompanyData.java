@@ -15,4 +15,13 @@ import lombok.Setter;
 @Setter
 public class CompanyData {
 
+    private String companyForm;
+    private String name;
+    private String regNo;
+    private String vatNo;
+    private String email;
+    private String phone;
+    private String address;
+    private String country;
+    private String bankAccount;
 }

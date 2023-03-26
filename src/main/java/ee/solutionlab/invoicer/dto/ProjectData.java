@@ -13,7 +13,9 @@ import lombok.Setter;
 @EqualsAndHashCode
 @Getter
 @Setter
-public class ActivityData {
+public class ProjectData {
 
     private String name;
+    private String code;
+    private CustomerData customer;
 }

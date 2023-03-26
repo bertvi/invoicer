@@ -8,11 +8,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "currency")
@@ -22,16 +24,18 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @ToString
-@EqualsAndHashCode(exclude = {"id", "statusInfo"})
+@EqualsAndHashCode(exclude = {"id"})
 public class Currency {
 
     @Id
     @Column(nullable = false)
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CURRENCY_GEN")
+    @SequenceGenerator(name = "CURRENCY_GEN", sequenceName = "CURRENCY_ID_SEQ", allocationSize = 1)
     private long id;
     @Column(nullable = false)
     private String name;
-    @Builder.Default
-    @Embedded
-    private StatusInfo statusInfo = new StatusInfo();
+    @Column(nullable = false)
+    private LocalDateTime created;
+    @Column(nullable = false)
+    private LocalDateTime changed;
 }

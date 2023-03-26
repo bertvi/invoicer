@@ -15,4 +15,6 @@ import lombok.Setter;
 @Setter
 public class UnitData {
 
+    private String name;
+    private String value;
 }
